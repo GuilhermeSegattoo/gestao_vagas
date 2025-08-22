@@ -25,7 +25,7 @@ public class JobEntity {
     
     private String description;
 
-    @NotBlank(message = "O título da vaga não pode estar vazio")
+    @NotBlank(message = "O nível da vaga não pode estar vazio")
     private String level;
     private String benefits;
 

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.guilhermesegatto.gestao_vagas.modules.company.dto.CreateCompanyDTO;
 import br.com.guilhermesegatto.gestao_vagas.modules.company.entities.ComppanyEntity;
 import br.com.guilhermesegatto.gestao_vagas.modules.company.useCases.CreateCompanyUseCase;
 import jakarta.validation.Valid;
@@ -20,9 +21,9 @@ public class CompanyController {
     private CreateCompanyUseCase createCompanyUseCase;
 
     @PostMapping("/")
-    public ResponseEntity<Object> crate(@Valid @RequestBody ComppanyEntity comppanyEntity) {
+    public ResponseEntity<Object> crate(@Valid @RequestBody CreateCompanyDTO createCompanyDTO) {
       try {
-            var result = this.createCompanyUseCase.execute(comppanyEntity);
+            var result = this.createCompanyUseCase.execute(createCompanyDTO);
             return ResponseEntity.ok().body(result);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

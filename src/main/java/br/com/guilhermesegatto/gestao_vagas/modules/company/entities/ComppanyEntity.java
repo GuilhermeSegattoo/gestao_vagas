@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Length;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,7 +27,8 @@ public class ComppanyEntity {
     private String username;
     @Email(message = "Email deve ser válido")
     private String email;
-    @Length(min = 6, max = 20, message = "Senha deve ter entre 6 e 20 caracteres")
+    
+    @Column(length = 100)
     private String password;
 
     private String website;
