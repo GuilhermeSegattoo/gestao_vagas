@@ -15,6 +15,9 @@ public class SecurityConfig {
 
     @Autowired
     private SecurityFilter securityFilter;
+    
+    @Autowired
+    private SecurityCandidateFilter securityCandidateFilter;
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -24,10 +27,12 @@ public class SecurityConfig {
             auth.requestMatchers("/candidate/").permitAll()
                 .requestMatchers("/candidate/auth").permitAll()
                 .requestMatchers("/company/").permitAll()
-                .requestMatchers("/company/auth").permitAll();
+                .requestMatchers("/company/auth").permitAll()
+                .requestMatchers(org.springframework.http.HttpMethod.GET, "/job/").permitAll();
             auth.anyRequest().authenticated();    
             })
-            .addFilterBefore(securityFilter, BasicAuthenticationFilter.class);
+            .addFilterBefore(securityFilter, BasicAuthenticationFilter.class)
+            .addFilterBefore(securityCandidateFilter, BasicAuthenticationFilter.class);
 
         return http.build();
     
