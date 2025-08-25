@@ -19,6 +19,14 @@ public class SecurityConfig {
     @Autowired
     private SecurityCandidateFilter securityCandidateFilter;
 
+    private static final String[] SWAGGER_WHITELIST = {
+        "/v3/api-docs/**",
+        "/swagger-ui/**",
+        "/swagger-ui.html",
+        "/swagger-resources/**",
+        "/webjars/**"
+    };
+
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
@@ -28,6 +36,7 @@ public class SecurityConfig {
                 .requestMatchers("/candidate/auth").permitAll()
                 .requestMatchers("/company/").permitAll()
                 .requestMatchers("/company/auth").permitAll()
+                .requestMatchers(SWAGGER_WHITELIST).permitAll()
                 .requestMatchers(org.springframework.http.HttpMethod.GET, "/job/").permitAll();
             auth.anyRequest().authenticated();    
             })
