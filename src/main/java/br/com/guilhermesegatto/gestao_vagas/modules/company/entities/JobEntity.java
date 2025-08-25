@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,10 +24,13 @@ public class JobEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     
+    @Schema(example = "Vaga Java para Junior", requiredMode = Schema.RequiredMode.REQUIRED)
     private String description;
 
+    @Schema(example = "JUNIOR", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank(message = "O nível da vaga não pode estar vazio")
     private String level;
+    @Schema(example = "CLT, GymPass, Plano de saúde", requiredMode = Schema.RequiredMode.REQUIRED)
     private String benefits;
 
     @ManyToOne

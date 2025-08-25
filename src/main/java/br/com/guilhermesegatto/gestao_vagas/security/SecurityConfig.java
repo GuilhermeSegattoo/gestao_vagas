@@ -37,6 +37,7 @@ public class SecurityConfig {
                 .requestMatchers("/company/").permitAll()
                 .requestMatchers("/company/auth").permitAll()
                 .requestMatchers(SWAGGER_WHITELIST).permitAll()
+                .requestMatchers("/swagger-ui/index.html").permitAll()
                 .requestMatchers(org.springframework.http.HttpMethod.GET, "/job/").permitAll();
             auth.anyRequest().authenticated();    
             })
@@ -44,8 +45,8 @@ public class SecurityConfig {
             .addFilterBefore(securityCandidateFilter, BasicAuthenticationFilter.class);
 
         return http.build();
+    }
     
-}
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
