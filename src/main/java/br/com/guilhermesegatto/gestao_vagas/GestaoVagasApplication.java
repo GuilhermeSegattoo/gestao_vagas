@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 
 @SpringBootApplication
 @EnableTransactionManagement
+/* 
 @OpenAPIDefinition(
 	  info = @Info(
 		  title = "Gestão de Vagas API",
@@ -27,6 +28,7 @@ import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 	in = SecuritySchemeIn.HEADER,
 	bearerFormat = "JWT"
 )
+*/
 public class GestaoVagasApplication {
 
 	public static void main(String[] args) {

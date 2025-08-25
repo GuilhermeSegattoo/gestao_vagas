@@ -27,6 +27,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/company/job")
+@Tag(name = "Vagas", description = "Operações relacionadas às vagas de emprego")
 public class JobController {
 
     @Autowired
@@ -36,15 +37,17 @@ public class JobController {
     private JobRepository jobRepository;
 
     @PostMapping("/")
-     @PreAuthorize("hasRole('CANDIDATE')")
-    @Tag(name = "Vagas", description = "Informações sobre vagas")
-    @Operation(summary = "Cadastrar Vaga", description = "Cadastra uma nova vaga dentro de uma empresa")
+    @PreAuthorize("hasRole('COMPANY')")
+    @Operation(
+        summary = "Cadastrar nova vaga", 
+        description = "Cria uma nova vaga de emprego para a empresa autenticada"
+    )
     @ApiResponses({
-        @ApiResponse(responseCode = "200", content = {
-            @Content(schema = @Schema(implementation = JobEntity.class))
-        })
+        @ApiResponse(responseCode = "200", description = "Vaga criada com sucesso",
+            content = @Content(schema = @Schema(implementation = JobEntity.class))),
+        @ApiResponse(responseCode = "401", description = "Token inválido ou expirado"),
+        @ApiResponse(responseCode = "403", description = "Acesso negado - role COMPANY necessária")
     })
-    
     @SecurityRequirement(name = "jwt_auth")
     public JobEntity create(@Valid @RequestBody CreateJobDTO createJobDTO, HttpServletRequest request) {
         var companyId = request.getAttribute("company_id");
@@ -52,6 +55,14 @@ public class JobController {
     }
     
     @GetMapping("/")
+    @Operation(
+        summary = "Listar todas as vagas", 
+        description = "Retorna todas as vagas disponíveis no sistema (acesso público)"
+    )
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Lista de vagas obtida com sucesso",
+            content = @Content(array = @ArraySchema(schema = @Schema(implementation = JobEntity.class))))
+    })
     public java.util.List<JobEntity> list() {
         return this.jobRepository.findAll();
     }
